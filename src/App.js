@@ -6,6 +6,7 @@ import DATA from './data.js';
 
 const App = () => {
   const [airline, setAirline] = useState('all');
+  const [airport, setAirport] = useState('all');
 
   const formatValue = (property, value) => {
     if (property === 'airline') {
@@ -29,8 +30,13 @@ const App = () => {
     setAirline(val);
   };
 
+  const selectAirport = (val) => setAirport(val);
+
   const filteredRoutes = DATA.routes.filter((route) => {
-    return route.airline === airline || airline === 'all';
+    return (
+      (route.airline === airline || airline === 'all') &&
+      (route.src === airport || route.dest === airport || airport === 'all')
+    );
   });
 
   const filteredAirlines = DATA.airlines.map((airline) => {
@@ -38,6 +44,13 @@ const App = () => {
       (route) => route.airline === airline.id,
     );
     return Object.assign({}, airline, { active });
+  });
+
+  const filteredAirports = DATA.airports.map((airport) => {
+    const active = !!filteredRoutes.find(
+      (route) => route.src === airport.code || route.dest === airport.code,
+    );
+    return Object.assign({}, airport, { active });
   });
 
   return (
@@ -53,6 +66,14 @@ const App = () => {
           allTitle="All Airlines"
           value={airline}
           onSelect={selectAirline}
+        />
+        <Select
+          options={filteredAirports}
+          valueKey="code"
+          titleKey="name"
+          allTitle="All Airports"
+          value={airport}
+          onSelect={selectAirport}
         />
         <Table
           className="routes-table"
