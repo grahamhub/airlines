@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Table from './components/Table';
+import Select from './components/Select';
 import DATA from './data.js';
 
 const App = () => {
@@ -20,24 +21,23 @@ const App = () => {
     { name: 'Destination Airport', property: 'dest' },
   ];
 
-  const row = (airline) => (
-    <option key={airline.id} value={airline.id}>
-      {airline.name}
-    </option>
-  );
-
-  const selectAirline = (ev) => {
-    let value = ev.target.value;
-
-    if (value !== 'all') {
-      value = Number(value);
+  const selectAirline = (val) => {
+    if (val !== 'all') {
+      val = Number(val);
     }
 
-    setAirline(value);
+    setAirline(val);
   };
 
   const filteredRoutes = DATA.routes.filter((route) => {
     return route.airline === airline || airline === 'all';
+  });
+
+  const filteredAirlines = DATA.airlines.map((airline) => {
+    const active = !!filteredRoutes.find(
+      (route) => route.airline === airline.id,
+    );
+    return Object.assign({}, airline, { active });
   });
 
   return (
@@ -46,10 +46,14 @@ const App = () => {
         <h1 className="title">Airline Routes</h1>
       </header>
       <section>
-        <select onChange={selectAirline}>
-          <option value="all">Select an Airline</option>
-          {DATA.airlines.map(row)}
-        </select>
+        <Select
+          options={filteredAirlines}
+          valueKey="id"
+          titleKey="name"
+          allTitle="All Airlines"
+          value={airline}
+          onSelect={selectAirline}
+        />
         <Table
           className="routes-table"
           columns={columns}
