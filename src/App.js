@@ -53,6 +53,11 @@ const App = () => {
     return Object.assign({}, airport, { active });
   });
 
+  const clearFilters = () => {
+    setAirport('all');
+    setAirline('all');
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -75,6 +80,12 @@ const App = () => {
           value={airport}
           onSelect={selectAirport}
         />
+        <button
+          onClick={clearFilters}
+          disabled={airport === 'all' && airline === 'all'}
+        >
+          Show All Routes
+        </button>
         <Table
           className="routes-table"
           columns={columns}
