@@ -68,6 +68,7 @@ const App = () => {
           options={filteredAirlines}
           valueKey="id"
           titleKey="name"
+          enabledKey="active"
           allTitle="All Airlines"
           value={airline}
           onSelect={selectAirline}
@@ -76,6 +77,7 @@ const App = () => {
           options={filteredAirports}
           valueKey="code"
           titleKey="name"
+          enabledKey="active"
           allTitle="All Airports"
           value={airport}
           onSelect={selectAirport}

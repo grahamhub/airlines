@@ -4,15 +4,17 @@ const Select = ({
   options = [],
   valueKey = '',
   titleKey = '',
+  enabledKey = undefined,
   allTitle = 'all',
   value = 'all',
   onSelect = (_) => null,
 }) => {
   const row = (airline) => {
     const val = airline[valueKey];
+    const enabled = enabledKey === undefined || !!airline[enabledKey];
 
     return (
-      <option key={val} value={val}>
+      <option key={val} value={val} disabled={!enabled}>
         {airline[titleKey]}
       </option>
     );
