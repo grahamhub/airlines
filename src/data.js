@@ -1395,4 +1395,16 @@ const airports = [
 
 ];
 
-export default {routes, airlines, airports};
+const getBy = function getByField(haystack, prop, needle) {
+  return haystack.find(stack => stack[prop] === needle);
+};
+
+function getAirlineById(id) {
+  return getBy(airlines, "id", id);
+}
+
+function getAirportByCode(code) {
+  return getBy(airports, "code", code);
+}
+
+export default {routes, airlines, airports, getAirlineById, getAirportByCode};

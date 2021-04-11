@@ -1,14 +1,19 @@
-import React from "react";
-import "./App.css";
-import DATA from "./data.js";
+import React from 'react';
+import './App.css';
+import DATA from './data.js';
 
 const App = () => {
   const row = (route) => {
+    const airline = DATA.getAirlineById(route.airline);
+    const src = DATA.getAirportByCode(route.src);
+    const dest = DATA.getAirportByCode(route.dest);
+    const key = `${airline.id}_${src.code}_${dest.code}`;
+
     return (
-      <tr>
-        <td>{route.airline}</td>
-        <td>{route.src}</td>
-        <td>{route.dest}</td>
+      <tr key={key}>
+        <td>{airline.name}</td>
+        <td>{src.name}</td>
+        <td>{dest.name}</td>
       </tr>
     );
   };
